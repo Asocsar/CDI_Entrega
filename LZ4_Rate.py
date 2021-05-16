@@ -57,8 +57,7 @@ def compress(filename, VB=65535, VA=150):
         output = bytearray([])
         total_length = len(data)
 
-        if total_length <= 5:
-            return data
+
 
         ini_debug = 0
 
@@ -73,6 +72,8 @@ def compress(filename, VB=65535, VA=150):
         acumulated_bits = bytearray([])
         itera = -1
         while not end:
+            if total_length <= 5:
+                end = True
             itera += 1
             sizeA = 1 #size of the advance window
             match = False
@@ -113,7 +114,7 @@ def compress(filename, VB=65535, VA=150):
                     t = bytearray([int(t1 + t2, 2)])
                     block = t + e1 + acumulated_bits + data[-6:] 
                 
-                #t1_debug, e1_debug, O_debug, t2_debug, e2_debug, Literal = extract(ini_debug, ini_debug + len(block) + 30, debug)
+
 
                 output += block
             
@@ -195,6 +196,4 @@ def decompress(filename):
 
     fileDecompress = [ord(x) for x in fileDecompress]
     mensaje = bytearray(fileDecompress)
-    #for i in range(0, len(fileDecompress)):
-    #    mensaje += fileDecompress[i]
     return mensaje
