@@ -1,8 +1,8 @@
 import time
 import sys
 
-compress_decompress = sys.argv[1];
-filename = sys.argv[2];
+compress_decompress = sys.argv[1]
+filename = sys.argv[2]
 
 # %%
 def move_search_window_forward(VB_ini, VB_end, windows_size):
@@ -153,7 +153,7 @@ def decompress(filename):
         t2 = byte & 0x0F
         while True:
             try:
-                sumLength = t1;
+                sumLength = t1
                 if ( t1 == 15):
                     byte = readByte(file,1)
                     sumLength = sumLength + byte
@@ -172,10 +172,10 @@ def decompress(filename):
                 offset1 = readByte(file,1)
                 offset2 = readByte(file,1)
                 
-                offset2 = offset2 << 8;
+                offset2 = offset2 << 8
                 offset = offset1 | offset2
                 
-                matchlength = t2+4;
+                matchlength = t2+4
                 
                 if ( t2 == 15 ):
                     byte = readByte(file,1)
@@ -185,7 +185,7 @@ def decompress(filename):
                         byte = readByte(file,1)
                         matchlength = matchlength + byte
                 
-                initial_index = (len(fileDecompress)-offset);
+                initial_index = (len(fileDecompress)-offset)
                 final_index = (len(fileDecompress)-offset+matchlength)
                 
                 if ( offset < matchlength ): #exception
@@ -215,11 +215,37 @@ def decompress(filename):
         f.write(mensaje)
 
     end = time.time()
-    print(end-start);
-
+    print(end-start)
 
 if ( compress_decompress == '-c' ):
-    compress(filename);
+    ini_VA, end_VA = 10, 200
+    jump = 200
+
+    start = datetime.datetime.now()
+    Compressed = compress(filename)
+    end = datetime.datetime.now()
+    elapsed_time = end - start
+
+    for i, VA in enumerate(range(ini_VA, end_VA, jump)):
+        start_comp = datetime.datetime.now()
+        trial = compress(filename, VA=VA)
+        if len(trial) < len(Compressed):
+            Compressed = trial
+
+        end = datetime.datetime.now()
+        elapsed_time = end - start;
+        compression_elapsed_time = end - start_comp
+       
+
+
+        if elapsed_time.seconds + compression_elapsed_time.seconds >= 295:
+            break
+    end = datetime.datetime.now()
+
+    elapsed_time = end - start;
+
+    with open(filename + '.lz4', 'wb+') as f:
+        f.write(Compressed)
 
 elif ( compress_decompress == '-d' ):
-    decompress(filename);
+    decompress(filename)
