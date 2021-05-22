@@ -1,8 +1,8 @@
 import time
 import sys
 
-compress_decompress = sys.argv[1];
-filename = sys.argv[2];
+compress_decompress = sys.argv[1]
+filename = sys.argv[2]
 
 # %%
 def move_search_window_forward(VB_ini, VB_end, windows_size):
@@ -151,7 +151,7 @@ def decompress(filename):
         t2 = byte & 0x0F
         while True:
             try:
-                sumLength = t1;
+                sumLength = t1
                 if ( t1 == 15):
                     byte = readByte(file,1)
                     sumLength = sumLength + byte
@@ -170,10 +170,10 @@ def decompress(filename):
                 offset1 = readByte(file,1)
                 offset2 = readByte(file,1)
                 
-                offset2 = offset2 << 8;
+                offset2 = offset2 << 8
                 offset = offset1 | offset2
                 
-                matchlength = t2+4;
+                matchlength = t2+4
                 
                 if ( t2 == 15 ):
                     byte = readByte(file,1)
@@ -183,7 +183,7 @@ def decompress(filename):
                         byte = readByte(file,1)
                         matchlength = matchlength + byte
                 
-                initial_index = (len(fileDecompress)-offset);
+                initial_index = (len(fileDecompress)-offset)
                 final_index = (len(fileDecompress)-offset+matchlength)
                 
                 if ( offset < matchlength ): #exception
@@ -213,11 +213,11 @@ def decompress(filename):
         f.write(mensaje)
 
     end = time.time()
-    print(end-start);
+    print(end-start)
 
 
 if ( compress_decompress == '-c' ):
-    compress(filename);
+    compress(filename)
 
 elif ( compress_decompress == '-d' ):
-    decompress(filename);
+    decompress(filename)
