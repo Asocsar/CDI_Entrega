@@ -54,6 +54,7 @@ def update_windows(VB_ini, VB_end, match_size, window_sizeB, window_sizeA, total
     VA_ini, VA_end = move_advance_window_forward(VB_end, window_sizeA, total_length)
     return VA_ini, VA_end, VB_ini, VB_end
 
+# %%
 def compress(filename, VB=1, VA=64):
 
     start = time.time()
@@ -131,7 +132,7 @@ def compress(filename, VB=1, VA=64):
             VA_Window = data[VA_ini:VA_end]
 
     end = time.time()
-    print(str(end-start))
+    print(end-start)
 
     with open(filename + '.lz4', 'wb+') as f:
         f.write(output)    

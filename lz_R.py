@@ -1,5 +1,7 @@
 import time
 import sys
+import datetime
+
 
 compress_decompress = sys.argv[1]
 filename = sys.argv[2]
@@ -135,8 +137,7 @@ def compress(filename, VB=65535, VA=150):
     end = time.time()
     print(str(end-start))
 
-    with open(filename + '.lz4', 'wb+') as f:
-        f.write(output)    
+    return output   
         
 
 def readByte(file, bytesToRead):
@@ -219,7 +220,7 @@ def decompress(filename):
 
 if ( compress_decompress == '-c' ):
     ini_VA, end_VA = 10, 200
-    jump = 200
+    jump = 5
 
     start = datetime.datetime.now()
     Compressed = compress(filename)
